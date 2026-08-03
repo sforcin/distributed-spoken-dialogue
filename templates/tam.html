@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>TAM - Perceived Usefulness</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+<div class="card">
+<h2>Technology Acceptance Model — Perceived Usefulness</h2>
+<form method="POST">
+<div class="questions">
+{% set items = [
+  ("q1", "1. Using this system would enable me to accomplish tasks more quickly."),
+  ("q2", "2. Using this system would improve my performance."),
+  ("q3", "3. Using this system would increase my productivity."),
+  ("q4", "4. Using this system would enhance my effectiveness in educational exercises."),
+  ("q5", "5. Using this system would make it easier to do educational exercises."),
+  ("q6", "6. I would find this system useful in educational exercises."),
+] %}
+{% for name, label in items %}
+<div class="question-block">
+  <div class="question-label">{{ label }}</div>
+  <div class="likert">
+    <span class="likert-anchor left">Extremely Unlikely</span>
+    <div class="likert-options">
+      {% for v in range(1,8) %}
+      <label><input type="radio" name="{{ name }}" value="{{ v }}" required><span>{{ v }}</span></label>
+      {% endfor %}
+    </div>
+    <span class="likert-anchor right">Extremely Likely</span>
+  </div>
+</div>
+{% endfor %}
+</div>
+<button type="submit" class="btn btn-primary" style="margin-top:1.5rem">Next</button>
+</form>
+</div>
+</body>
+</html>

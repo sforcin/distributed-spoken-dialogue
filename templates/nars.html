@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>NARS</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+<div class="card">
+<h2>Negative Attitudes Towards Robots (NARS)</h2>
+<form method="POST">
+<div class="questions">
+{% set items = [
+  ("q1", "1. I would feel uneasy if robots really had emotions."),
+  ("q2", "2. Something bad might happen if robots developed into living beings."),
+  ("q3", "3. I would feel relaxed talking with robots."),
+  ("q4", "4. I would feel uneasy if I was given a job where I had to use robots."),
+  ("q5", "5. If robots had emotions, I would be able to make friends with them."),
+  ("q6", "6. I feel comforted being with robots that have emotions."),
+  ("q7", '7. The word "robot" means nothing to me.'),
+  ("q8", "8. I would feel nervous operating a robot in front of other people."),
+  ("q9", "9. I would hate the idea that robots or artificial intelligences were making judgments about things."),
+  ("q10", "10. I would feel very nervous just standing in front of a robot."),
+  ("q11", "11. I feel that if I depend on robots too much, something bad might happen."),
+  ("q12", "12. I would feel paranoid talking with a robot."),
+  ("q13", "13. I am concerned that robots would be a bad influence on children."),
+  ("q14", "14. I feel that in the future society will be dominated by robots."),
+] %}
+{% for name, label in items %}
+<div class="question-block">
+  <div class="question-label">{{ label }}</div>
+  <div class="likert">
+    <span class="likert-anchor left">Strongly Disagree</span>
+    <div class="likert-options">
+      {% for v in range(1,6) %}
+      <label><input type="radio" name="{{ name }}" value="{{ v }}" required><span>{{ v }}</span></label>
+      {% endfor %}
+    </div>
+    <span class="likert-anchor right">Strongly Agree</span>
+  </div>
+</div>
+{% endfor %}
+</div>
+<button type="submit" class="btn btn-primary" style="margin-top:1.5rem">Next</button>
+</form>
+</div>
+</body>
+</html>

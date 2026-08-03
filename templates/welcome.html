@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Blossom's Function Machine Game</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+<div class="card">
+  <h1>Welcome to Blossom's Function Machine Game!</h1>
+  <p>Before we start, please fill out these forms.</p>
+  <form method="GET" action="{{ url_for('demographics') }}">
+    <button type="submit" class="btn btn-primary">Start</button>
+  </form>
+</div>
+</body>
+</html>

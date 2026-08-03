@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>BFI-10</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+<div class="card">
+<h2>Big Five Inventory–10 (BFI-10)</h2>
+<p>How well do the following statements describe your personality?</p>
+<p><em>I see myself as someone who …</em></p>
+
+<form method="POST">
+<div class="questions">
+{% set items = [
+  ("q1", "1. … is reserved"),
+  ("q2", "2. … is generally trusting"),
+  ("q3", "3. … tends to be lazy"),
+  ("q4", "4. … is relaxed, handles stress well"),
+  ("q5", "5. … has few artistic interests"),
+  ("q6", "6. … is outgoing, sociable"),
+  ("q7", "7. … tends to find fault with others"),
+  ("q8", "8. … does a thorough job"),
+  ("q9", "9. … gets nervous easily"),
+  ("q10", "10. … has an active imagination"),
+] %}
+{% for name, label in items %}
+<div class="question-block">
+  <div class="question-label">{{ label }}</div>
+  <div class="likert">
+    <span class="likert-anchor left">Disagree strongly</span>
+    <div class="likert-options">
+      {% for v in range(1,6) %}
+      <label><input type="radio" name="{{ name }}" value="{{ v }}" required><span>{{ v }}</span></label>
+      {% endfor %}
+    </div>
+    <span class="likert-anchor right">Agree strongly</span>
+  </div>
+</div>
+{% endfor %}
+</div>
+<button type="submit" class="btn btn-primary" style="margin-top:1.5rem">Next</button>
+</form>
+</div>
+</body>
+</html>

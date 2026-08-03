@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Blossom Pattern Machine</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+* { box-sizing: border-box; }
+body {
+margin: 0;
+font-family: -apple-system, Helvetica, Arial, sans-serif;
+background: #f4f4f4;
+display: flex;
+justify-content: center;
+padding: 24px 12px;
+}
+.card {
+width: 100%;
+max-width: 420px;
+background: #fff;
+border-radius: 24px;
+overflow: hidden;
+box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+}
+.columns {
+display: flex;
+}
+.column { width: 50%; }
+.header {
+text-align: center;
+font-weight: 700;
+font-size: 18px;
+color: #fff;
+padding: 14px 0;
+letter-spacing: 0.5px;
+}
+.doesnt-work .header { background: #e5534b; }
+.works .header { background: #4caf7d; }
+.numbers {
+display: flex;
+flex-wrap: wrap;
+justify-content: center;
+gap: 12px 20px;
+padding: 20px 10px;
+min-height: 90px;
+}
+.numbers span {
+font-size: 28px;
+font-weight: 700;
+color: #222;
+}
+.controls {
+display: flex;
+flex-direction: column;
+align-items: center;
+padding: 28px 0 32px;
+background: #ececec;
+}
+#recordBtn {
+width: 90px;
+height: 90px;
+border-radius: 50%;
+border: none;
+background: #4caf7d;
+color: #fff;
+font-size: 34px;
+cursor: pointer;
+display: flex;
+align-items: center;
+justify-content: center;
+box-shadow: 0 0 0 8px rgba(76,175,125,0.2);
+transition: background 0.15s;
+}
+#recordBtn.recording {
+background: #e5534b;
+box-shadow: 0 0 0 8px rgba(229,83,75,0.2);
+}
+#statusText {
+margin-top: 14px;
+font-weight: 700;
+letter-spacing: 0.5px;
+color: #333;
+}
+.finish-row {
+padding: 0 24px 28px;
+background: #ececec;
+}
+.finish-btn {
+display: block;
+width: 100%;
+text-align: center;
+font-size: 17px;
+font-weight: 700;
+padding: 14px;
+border-radius: 12px;
+background: #888;
+color: #fff;
+text-decoration: none;
+letter-spacing: 0.3px;
+}
+.finish-btn:active {
+background: #666;
+}
+</style>
+</head>
+<body>
+
+<div class="card">
+<div class="columns">
+<div class="column doesnt-work">
+<div class="header">DOESN'T WORK</div>
+<div class="numbers" id="doesntWorkNumbers"></div>
+</div>
+<div class="column works">
+<div class="header">WORKS</div>
+<div class="numbers" id="worksNumbers"></div>
+</div>
+</div>
+<div class="controls">
+<button id="recordBtn" onclick="toggleRecording()">&#127908;</button>
+<div id="statusText">START SPEAKING</div>
+</div>
+<div class="finish-row">
+<a href="{{ url_for('study_finish') }}" class="finish-btn">I am done playing</a>
+</div>
+</div>
+
+<script>
+let recording = false;
+
+async function toggleRecording() {
+recording = !recording;
+updateUI();
+try {
+const res = await fetch(recording ? '/start' : '/stop');
+await res.text();
+} catch (err) {
+console.error("Request failed:", err);
+}
+}
+
+function updateUI() {
+const btn = document.getElementById('recordBtn');
+const statusText = document.getElementById('statusText');
+btn.classList.toggle('recording', recording);
+statusText.innerText = recording ? "STOP SPEAKING" : "START SPEAKING";
+}
+
+async function pollGameState() {
+try {
+const res = await fetch('/game_state');
+const state = await res.json();
+renderNumbers('worksNumbers', state.works || []);
+renderNumbers('doesntWorkNumbers', state.doesnt_work || []);
+} catch (err) {
+// silent — just try again next interval
+}
+}
+
+function renderNumbers(elementId, numbers) {
+const container = document.getElementById(elementId);
+container.innerHTML = numbers.map(n => `<span>${n}</span>`).join('');
+}
+
+pollGameState();
+setInterval(pollGameState, 1500);
+</script>
+
+</body>
+</html>

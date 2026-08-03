@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>RoSAS-SF</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+<div class="card">
+<h2>Robotic Social Attributes Scale (RoSAS-SF)</h2>
+<p>To what extent did the robot seem …</p>
+<form method="POST">
+<div class="questions">
+{% set items = [
+  ("q1", "1. Sociable"),
+  ("q2", "2. Compassionate"),
+  ("q3", "3. Reliable"),
+  ("q4", "4. Competent"),
+  ("q5", "5. Awkward"),
+  ("q6", "6. Scary"),
+] %}
+{% for name, label in items %}
+<div class="question-block">
+  <div class="question-label">{{ label }}</div>
+  <div class="likert">
+    <span class="likert-anchor left">Not at all</span>
+    <div class="likert-options">
+      {% for v in range(1,10) %}
+      <label><input type="radio" name="{{ name }}" value="{{ v }}" required><span>{{ v }}</span></label>
+      {% endfor %}
+    </div>
+    <span class="likert-anchor right">Very Much So</span>
+  </div>
+</div>
+{% endfor %}
+</div>
+<button type="submit" class="btn btn-primary" style="margin-top:1.5rem">Next</button>
+</form>
+</div>
+</body>
+</html>
