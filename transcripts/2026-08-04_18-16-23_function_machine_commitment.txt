@@ -1,0 +1,2 @@
+ASSISTANT: Welcome to our pattern-discovery game! I'm your Pattern Machine tutor. How many tasks do you want today? Pick 3 to 10.
+

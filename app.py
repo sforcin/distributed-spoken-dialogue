@@ -265,6 +265,10 @@ class DialogueSession:
 
         self.history.append({"role": "assistant", "content": text})
 
+        if status == "correct":
+            self.send_json({"type": "celebrate"})
+            print("[server] sent celebrate to Blossom")
+
         if status in ("correct", "give_up"):
             self.task_index += 1
             self.shown = set()
